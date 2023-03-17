@@ -5,61 +5,59 @@ using SistemasDeTarefas.Repositorios.interfaces;
 
 namespace SistemasDeTarefas.Repositorios
 {
-    public class TarefaRepositorio : ITarefaRepositorio
+    public class UsuarioRepositorio : IUsuarioRepositorio
     {
         private readonly SistemaTarefasDBContext _dbcontext;
-        public TarefaRepositorio(SistemaTarefasDBContext sistemaTarefasDBContext)
+        public UsuarioRepositorio(SistemaTarefasDBContext sistemaTarefasDBContext)
         {
             _dbcontext = sistemaTarefasDBContext;
         }
-        public async Task<TarefaModel> BuscarPorId(int id)
+        public async Task<UsuarioModel> BuscarPorId(int id)
         {
-            return await _dbcontext.Tarefas.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbcontext.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<TarefaModel>> BuscarTodasTarefas()
+        public async Task<List<UsuarioModel>> BuscarTodosUsuarios()
         {
-            return await _dbcontext.Tarefas.ToListAsync();
+            return await _dbcontext.Usuarios.ToListAsync();
         }
-        public async Task<TarefaModel> Adicionar(TarefaModel tarefa)
+        public async Task<UsuarioModel> Adicionar(UsuarioModel usuario)
         {
-            await _dbcontext.Tarefas.AddAsync(tarefa);
+            await _dbcontext.Usuarios.AddAsync(usuario);
             await _dbcontext.SaveChangesAsync();
 
-            return tarefa;
+            return usuario;
         }
 
         public async Task<bool> Apagar(int id)
         {
-            TarefaModel tarefaPorId = await BuscarPorId(id);
-            if(tarefaPorId == null)
+            UsuarioModel usuarioPorId = await BuscarPorId(id);
+            if(usuarioPorId == null)
             {
-                throw new Exception($"Tarefa para o ID: {id} não foi encontrada no banco de dados");
+                throw new Exception($"Usuaario para o ID: {id} não foi encontrado no banco de dados");
             }
 
-            _dbcontext.Tarefas.Remove(tarefaPorId);
+            _dbcontext.Usuarios.Remove(usuarioPorId);
             await _dbcontext.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<TarefaModel> Atualizar(TarefaModel tarefa, int id)
+        public async Task<UsuarioModel> Atualizar(UsuarioModel usuario, int id)
         {
-            TarefaModel tarefaPorId = await BuscarPorId(id);
-            if(tarefaPorId == null)
+            UsuarioModel usuarioPorId = await BuscarPorId(id);
+            if(usuarioPorId == null)
             {
-                throw new Exception($"Tarefa para o ID: {id} não foi encontrado no banco de dados");
+                throw new Exception($"Usuário para o ID: {id} não foi encontrado no banco de dados");
             }
 
-            tarefaPorId.Nome= tarefa.Nome;
-            tarefaPorId.Descricao= tarefa.Descricao;
-            tarefaPorId.Status = tarefa.Status;
-            tarefaPorId.UsuarioId = tarefa.UsuarioId;
+            usuarioPorId.Nome= usuario.Nome;    
+            usuarioPorId.Email= usuario.Email;
 
-            _dbcontext.Tarefas.Update(tarefaPorId);
+            _dbcontext.Usuarios.Update(usuarioPorId);
             await _dbcontext.SaveChangesAsync();
 
-            return tarefaPorId;
+            return usuarioPorId;
         }
 
     }

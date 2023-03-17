@@ -8,49 +8,49 @@ namespace SistemasDeTarefas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class TarefaController : ControllerBase
     {
-        private readonly IUsuarioRepositorio _usuarioRepositorio;
-        public UsuarioController(IUsuarioRepositorio usuarioRepositorio)
+        private readonly ITarefaRepositorio _tarefaRepositorio;
+        public TarefaController(ITarefaRepositorio tarefaoRepositorio)
         {
-            _usuarioRepositorio = usuarioRepositorio;
+            _tarefaRepositorio = tarefaoRepositorio;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UsuarioModel>>> BuscarTodosUsuarios()
+        public async Task<ActionResult<List<TarefaModel>>> BuscarTodasTarefas()
         {
-            List<UsuarioModel> usuarios = await _usuarioRepositorio.BuscarTodosUsuarios();
-            return Ok(usuarios);
+            List<TarefaModel> tarefa = await _tarefaRepositorio.BuscarTodasTarefas();
+            return Ok(tarefa);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<UsuarioModel>>> BuscarPorId(int id)
+        public async Task<ActionResult<List<TarefaModel>>> BuscarPorId(int id)
         {
-            UsuarioModel usuario = await _usuarioRepositorio.BuscarPorId(id);
-            return Ok(usuario);
+            TarefaModel tarefa = await _tarefaRepositorio.BuscarPorId(id);
+            return Ok(tarefa);
         }
 
         [HttpPost]
-        public async Task<ActionResult<UsuarioModel>> Cadastrar([FromBody] UsuarioModel usuarioModel)
+        public async Task<ActionResult<TarefaModel>> Cadastrar([FromBody] TarefaModel tarefaModel)
         {
-            UsuarioModel usuario = await _usuarioRepositorio.Adicionar(usuarioModel);
+            TarefaModel tarefa = await _tarefaRepositorio.Adicionar(tarefaModel);
 
-            return Ok(usuario);
+            return Ok(tarefa);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<UsuarioModel>> Atualizar([FromBody] UsuarioModel usuarioModel, int id)
+        public async Task<ActionResult<TarefaModel>> Atualizar([FromBody] TarefaModel tarefaModel, int id)
         {
-            usuarioModel.Id = id;
-            UsuarioModel usuario = await _usuarioRepositorio.Atualizar(usuarioModel, id);
+            tarefaModel.Id = id;
+            TarefaModel tarefa = await _tarefaRepositorio.Atualizar(tarefaModel, id);
 
-            return Ok(usuario);
+            return Ok(tarefa);
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UsuarioModel>> Apagar(int id)
+        public async Task<ActionResult<TarefaModel>> Apagar(int id)
         {
-            bool apagado = await _usuarioRepositorio.Apagar(id);
+            bool apagado = await _tarefaRepositorio.Apagar(id);
             return Ok(apagado);
         }
     }

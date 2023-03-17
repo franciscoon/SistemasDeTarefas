@@ -2,12 +2,12 @@
 
 namespace SistemasDeTarefas.Repositorios.interfaces
 {
-    public interface IUsuarioRepositorio
+    public interface ITarefaRepositorio
     {
-        Task<List<UsuarioModel>> BuscarTodosUsuarios();
-        Task<UsuarioModel> BuscarPorId(int id);
-        Task<UsuarioModel> Adicionar(UsuarioModel usuario);
-        Task<UsuarioModel> Atualizar(UsuarioModel usuario, int id);
+        Task<List<TarefaModel>> BuscarTodasTarefas();
+        Task<TarefaModel> BuscarPorId(int id);
+        Task<TarefaModel> Adicionar(TarefaModel tarefa);
+        Task<TarefaModel> Atualizar(TarefaModel tarefa, int id);
         Task<bool> Apagar(int id);
     }
 }
